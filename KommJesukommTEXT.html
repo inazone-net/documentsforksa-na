@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コム・イエス・コム — 対訳資料</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-mid: #3d342a;
+    --ink-light: #7a6d62;
+    --ink-faint: #b8ada4;
+    --accent: #8b4a2a;
+    --accent-soft: #c4896a;
+    --paper: #f5f0e8;
+    --paper-warm: #ede6d8;
+    --rule: #d4c9bc;
+    --blue-gloss: #3a5a7c;
+    --blue-muted: #6a8aac;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,140,0.07) 27px,
+        rgba(180,160,140,0.07) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 48px 80px;
+  }
+
+  .piece-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--rule);
+    position: relative;
+  }
+  .piece-title::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--accent-soft);
+    margin-top: 10px;
+  }
+  .piece-subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 32px;
+  }
+
+  .stanza {
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stanza-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stanza-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .stanza-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--rule), transparent);
+  }
+
+  .line-block {
+    margin-bottom: 6px;
+    padding: 4px 0;
+    transition: background 0.2s;
+  }
+  .line-block:hover {
+    background: rgba(139,74,42,0.03);
+    border-radius: 4px;
+  }
+
+  .line-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .word-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: flex-start;
+    flex: 0 0 auto;
+  }
+
+  .word-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3px;
+    min-width: 0;
+  }
+
+  .w-orig {
+    font-family: 'EB Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .w-mean {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10.5px;
+    font-weight: 300;
+    color: var(--blue-gloss);
+    margin-top: 2px;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .w-ipa {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-faint);
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .trans-text {
+    flex: 1 0 auto;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--accent-soft);
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-bottom: 3px;
+    text-align: right;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 28px;
+    padding: 6px 20px;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-light);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .print-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
+
+  @media print {
+    :root {
+      --ink: #000; --ink-mid: #000; --ink-light: #000; --ink-faint: #000;
+      --accent: #000; --accent-soft: #000; --rule: #000;
+      --blue-gloss: #000; --blue-muted: #000;
+    }
+    @page { size: A4 portrait; margin: 5mm 13mm 5mm 13mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: white !important; }
+    body::before { display: none; }
+    .print-btn { display: none; }
+    .page { max-width: 100%; padding: 0; }
+    .piece-title { font-size: 18px; margin-bottom: 2px; padding-bottom: 1.5mm; }
+    .piece-title::after { margin-top: 4px; }
+    .piece-subtitle { font-size: 8.5px; margin-bottom: 3mm; }
+    .stanza { margin-bottom: 2mm; opacity: 1; transform: none; animation: none; }
+    .stanza-header { margin-bottom: 0.8mm; }
+    .stanza-num { font-size: 8.5px; }
+    .line-block { margin-bottom: 0.4mm; padding: 0; }
+    .line-block:hover { background: none; }
+    .w-orig { font-size: 14.5px; line-height: 1.2; }
+    .w-mean { font-size: 7.5px; margin-top: 1px; line-height: 1.2; }
+    .w-ipa  { font-size: 9px; margin-top: 0; }
+    .word-unit { padding: 0 2px; }
+    .trans-text { font-size: 10.5px; padding-left: 8px; padding-bottom: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 20px 48px; }
+    .piece-title { font-size: 22px; }
+    .w-orig { font-size: 17px; }
+    .word-unit { padding: 0 5px; }
+  }
+
+  .essay {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 2px solid var(--rule);
+  }
+  .essay-header {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .essay-section {
+    margin-bottom: 28px;
+  }
+  .essay-section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .essay-section-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin: 14px 0 6px;
+  }
+  .essay-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.95;
+  }
+  .essay-schema {
+    display: block;
+    margin: 12px 0 12px 20px;
+    padding: 10px 16px;
+    background: rgba(139,74,42,0.04);
+    border-left: 2px solid var(--accent-soft);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.8;
+  }
+
+  @media print {
+    .essay { margin-top: 5mm; padding-top: 3mm; }
+    .essay-header { font-size: 8px; margin-bottom: 2mm; }
+    .essay-section { margin-bottom: 3mm; }
+    .essay-section-title { font-size: 11px; margin-bottom: 1mm; padding-bottom: 0.5mm; }
+    .essay-section-sub { font-size: 10px; margin: 2mm 0 1mm; }
+    .essay-body { font-size: 8.5px; line-height: 1.7; }
+    .essay-schema { font-size: 11px; margin: 1.5mm 0 1.5mm 4mm; padding: 1mm 3mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="print-btn" onclick="window.print()">印刷 / A4 で保存</button>
+
+  <div class="piece-title">Komm, Jesu, komm!</div>
+  <div class="piece-subtitle">パウル・ティミヒ作詞 · J. S. バッハ モテット BWV 229</div>
+
+  <main id="content"></main>
+
+  <div class="essay">
+    <div class="essay-header">詩の解説</div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">作品概要</div>
+      <p class="essay-body">「来よ、イエスよ、来よ（Komm, Jesu, komm!）」は、ドイツの詩人・神学者パウル・ティミヒ（Paul Thymich, 1656–1694）が1684年にライプツィヒのトーマス学校校長ヨハン・クリストフ・ティーレの葬儀のために書いた詩です。ヨハン・セバスティアン・バッハはこれを二重合唱のモテット（BWV 229）として作曲しました。作曲年代は1723年から1730年代とされ、バッハのライプツィヒ時代の傑作のひとつです。詩はまた、ドイツプロテスタントの葬儀用賛美歌集（1684年刊）にも収録されています。</p>
+      <p class="essay-body" style="margin-top:10px;">全体は2つの連から成り、それぞれ7行で構成されます。各連の最終行は、ヨハネ14章6節「わたしは道であり、真理であり、命である（Ich bin der Weg, die Wahrheit und das Leben）」への明示的な参照によって締めくくられます。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">詩の構造：呼びかけと根拠の二層構造</div>
+      <p class="essay-body">第一連の7行は、対話的な構造を持ちます。冒頭3語「Komm, Jesu, komm!」という呼びかけが、2〜5行目の身体的・精神的疲弊の告白（<em>Mein Leib ist müde</em>「私の体は疲れ果て」、<em>die Krafft verschwindt je mehr und mehr</em>「力はますます消えゆく」）によって根拠づけられ、6行目に再びの懇願（<em>Komm! Komm!</em>）と自己委託の宣言が来ます。そして7行目でヨハネ14章6節が引用され、呼びかけの神学的正当性が示されます。</p>
+
+      <div class="essay-section-sub">Leib と Geist の対立</div>
+      <p class="essay-body">第一連が「<em>Leib</em>（体）」の疲れを語り、第二連が「<em>Geist</em>（霊）」の行方を語るという、肉体と霊魂の二元的構造がこの詩の骨格を成しています。</p>
+      <span class="essay-schema">Mein Leib ist müde … （第一連）<br>Ist doch der Geist wohl angebracht. （第二連）</span>
+      <p class="essay-body">疲れ果てた肉体（<em>Leib</em>）が死へと向かう一方で、霊（<em>Geist</em>）は創造主のもとへと「漂い昇る」（<em>schweben</em>）。この対比は、プロテスタント神学における魂の行方への確信と安堵を表現しています。</p>
+
+      <div class="essay-section-sub">Weg（道）の反復と深化</div>
+      <p class="essay-body">「道」のイメージは詩全体を貫く核心的モチーフです。第一連5行目の「<em>Der saure Weg</em>（苦しき道）」は、現世における信仰者の苦難の歩みを指します。しかし同連末尾でイエス自身が「<em>der rechte Weg</em>（正しき道）」として宣言されることで、その苦難の道は転換されます。第二連末尾でも再び「<em>Der wahre Weg zum Leben</em>（命への真の道）」として反復され、詩全体において「道」というイメージが苦難から救済へと意味を変えながら深化していきます。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">ヨハネ14章6節の引用とその変奏</div>
+      <p class="essay-body">聖書の原文は「わたしは道であり、真理であり、命である（Ich bin der Weg, die Wahrheit und das Leben）」という三つの等号文です。ティミヒはこれを第一連末尾で「Du bist der rechte Weg, die Wahrheit und das Leben（あなたは正しき道、真理、そして命）」と変奏します。主語が「わたし（イエス）」から「あなた（Du）」へと移ることで、引用は宣言から祈りへと変容します——語り手（信仰者）がイエスに向かって、その言葉をそのまま返す行為です。</p>
+      <p class="essay-body" style="margin-top:10px;">第二連末尾では同じ内容が「<em>Der wahre Weg zum Leben</em>（命への真の道）」と圧縮されます。三要素（道・真理・命）が一語「道」に収束し、その道が「命へと続く」という関係として再定式化されます。詩篇が展開するにつれ、聖句はより密度を増しながら繰り返される——バッハが各連の終わりを音楽的に異なる手法で扱う根拠がここにあります。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">第二連の重要な表現</div>
+
+      <div class="essay-section-sub">Drumb と schliess — 論理的帰結としての委託</div>
+      <p class="essay-body">第二連の冒頭語 <em>Drumb</em>（現代語 <em>darum</em>「それゆえ」）は、第一連全体を受けての論理的帰結を示します。疲れ果てた体があり、道は重すぎる——「それゆえ」私はあなたの手に自らを委ねる。<em>schliess ich mich in deine Hände</em>「あなたの手の中に自らを閉じ入れる」は、ヘブライ語詩篇31篇6節「わが霊をあなたの御手にゆだねます」の反響を持ちます。</p>
+
+      <div class="essay-section-sub">Lebensbach — 命の川の比喩</div>
+      <p class="essay-body"><em>Lebensbach</em>（命の川）は、ティミヒが用いる詩的な複合語です。<em>Leben</em>（命）＋<em>Bach</em>（小川）の合成語で、人の生涯を川の流れとして捉えるドイツ語の詩的伝統に立っています。「<em>Läuft gleich mein Lebensbach zum Ende</em>（たとえ私の命の川が終わりへ流れるとしても）」という让歩節は、死の事実を直視しながらも、それを嘆きとしてではなく、霊の行方への確信（「<em>Ist doch der Geist wohl angebracht</em>」）への導入として機能させます。</p>
+
+      <div class="essay-section-sub">zu guter Nacht — 世界への別れの挨拶</div>
+      <p class="essay-body">「<em>Welt, zu guter Nacht</em>（世よ、おやすみなさい）」は、現世への別れを「おやすみ」という日常の挨拶で表します。この表現の素朴さと含意の深さのギャップが、詩の情感的な核のひとつです。「おやすみ」は終わりではなく、目覚め（復活）を前提とした眠り——プロテスタント神学において「死は眠り」というルター的な理解が、この一語に凝縮されています。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">古語表記について</div>
+      <p class="essay-body">テキストには17世紀のドイツ語正書法が随所に現れます。<em>Krafft</em>（現代: <em>Kraft</em>）の重子音、<em>verschwindt</em>（現代: <em>verschwindet</em>）の語尾、<em>bey</em>（現代: <em>bei</em>）の表記、<em>Schöpffer</em>（現代: <em>Schöpfer</em>）の重子音などがその例です。<em>Drumb</em>（現代: <em>darum</em>）は当時の方言的・口語的形式であり、詩に口述・説教的なリズムをもたらします。バッハが用いた手稿や版でもこれらの表記は保持されており、テキストの歴史的証言として尊重されます。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { stanza: "第一連" },
+  {
+    words: [
+      ["Komm,", "来よ", "/kɔm/"],
+      ["Jesu,", "イエスよ", "/ˈjeːzu/"],
+      ["komm!", "来よ", "/kɔm/"]
+    ],
+    jp: "来よ、イエスよ、来よ！"
+  },
+  {
+    words: [
+      ["Mein", "私の", "/maɪn/"],
+      ["Leib", "体は", "/laɪp/"],
+      ["ist", "〜である", "/ɪst/"],
+      ["müde,", "疲れ果て", "/ˈmyːdə/"]
+    ],
+    jp: "私の体は疲れ果て"
+  },
+  {
+    words: [
+      ["Die", "(冠詞)", "/diː/"],
+      ["Krafft", "力は", "/kraft/"],
+      ["verschwindt", "消えゆく", "/fɛrˈʃvɪnt/"],
+      ["je", "ますます", "/jeː/"],
+      ["mehr", "より多く", "/meːr/"],
+      ["und", "と", "/ʊnt/"],
+      ["mehr;", "より多く", "/meːr/"]
+    ],
+    jp: "力はますます消えゆく"
+  },
+  {
+    words: [
+      ["Ich", "私は", "/ɪç/"],
+      ["sehne", "憧れる", "/ˈzeːnə/"],
+      ["mich", "〜を", "/mɪç/"],
+      ["nach", "〜を求めて", "/nax/"],
+      ["deinem", "あなたの", "/ˈdaɪnəm/"],
+      ["Friede,", "平和を", "/ˈfriːdə/"]
+    ],
+    jp: "あなたの平和を慕い求め"
+  },
+  {
+    words: [
+      ["Der", "この", "/deːr/"],
+      ["saure", "苦しき", "/ˈzaʊrə/"],
+      ["Weg", "道は", "/veːk/"],
+      ["wird", "なる", "/vɪrt/"],
+      ["mir", "私には", "/miːr/"],
+      ["zu", "〜すぎる", "/tsuː/"],
+      ["schwer:", "重く", "/ʃveːr/"]
+    ],
+    jp: "この苦しき道は私には重すぎる"
+  },
+  {
+    words: [
+      ["Komm!", "来よ", "/kɔm/"],
+      ["Komm!", "来よ", "/kɔm/"],
+      ["ich", "私は", "/ɪç/"],
+      ["will", "望む", "/vɪl/"],
+      ["mich", "自らを", "/mɪç/"],
+      ["dir", "あなたに", "/diːr/"],
+      ["ergeben,", "委ねたい", "/ɛrˈɡeːbən/"]
+    ],
+    jp: "来よ！来よ！私はあなたに身を委ねたい"
+  },
+  {
+    words: [
+      ["Du", "あなたは", "/duː/"],
+      ["bist", "である", "/bɪst/"],
+      ["der", "(冠詞)", "/deːr/"],
+      ["rechte", "正しき", "/ˈrɛçtə/"],
+      ["Weg,", "道", "/veːk/"],
+      ["die", "(冠詞)", "/diː/"],
+      ["Wahrheit", "真理", "/ˈvaːɐhaɪt/"],
+      ["und", "と", "/ʊnt/"],
+      ["das", "(冠詞)", "/das/"],
+      ["Leben.", "命", "/ˈleːbən/"]
+    ],
+    jp: "あなたこそ正しき道、真理、そして命"
+  },
+  { stanza: "第二連" },
+  {
+    words: [
+      ["Drumb", "それゆえ", "/drʊm/"],
+      ["schliess", "委ねる", "/ʃliːs/"],
+      ["ich", "私は", "/ɪç/"],
+      ["mich", "自らを", "/mɪç/"],
+      ["in", "〜の中へ", "/ɪn/"],
+      ["deine", "あなたの", "/ˈdaɪnə/"],
+      ["Hände,", "手に", "/ˈhɛndə/"]
+    ],
+    jp: "それゆえ私はあなたの手に自らを委ねる"
+  },
+  {
+    words: [
+      ["Und", "そして", "/ʊnt/"],
+      ["sage:", "言う", "/ˈzaːɡə/"],
+      ["Welt,", "世よ", "/vɛlt/"],
+      ["zu", "〜に", "/tsuː/"],
+      ["guter", "よき", "/ˈɡuːtɐ/"],
+      ["Nacht,", "夜よ", "/naxt/"]
+    ],
+    jp: "そして言う：世よ、おやすみなさい"
+  },
+  {
+    words: [
+      ["Läuft", "流れるとしても", "/lɔʏft/"],
+      ["gleich", "たとえ", "/ɡlaɪç/"],
+      ["mein", "私の", "/maɪn/"],
+      ["Lebensbach", "命の川が", "/ˈleːbənsbax/"],
+      ["zum", "〜へ向かって", "/tsʊm/"],
+      ["Ende,", "終わりへ", "/ˈɛndə/"]
+    ],
+    jp: "たとえ私の命の川が終わりへ流れるとしても"
+  },
+  {
+    words: [
+      ["Ist", "ある", "/ɪst/"],
+      ["doch", "確かに", "/dɔx/"],
+      ["der", "(冠詞)", "/deːr/"],
+      ["Geist", "霊は", "/ɡaɪst/"],
+      ["wohl", "きっと", "/voːl/"],
+      ["angebracht.", "届けられる", "/ˈanɡəbraxt/"]
+    ],
+    jp: "霊は確かに（神のもとへ）届けられる"
+  },
+  {
+    words: [
+      ["Er", "彼（霊）は", "/eːr/"],
+      ["soll", "〜すべき", "/zɔl/"],
+      ["bey", "〜のもとで", "/baɪ/"],
+      ["seinem", "その", "/ˈzaɪnəm/"],
+      ["Schöpffer", "創造主の", "/ˈʃœpfɐ/"],
+      ["schweben,", "漂い昇る", "/ˈʃveːbən/"]
+    ],
+    jp: "霊はその創造主のもとへ漂い昇るべき"
+  },
+  {
+    words: [
+      ["Weil", "なぜなら", "/vaɪl/"],
+      ["Jesus", "イエスは", "/ˈjeːzʊs/"],
+      ["ist", "であり", "/ɪst/"],
+      ["und", "かつ", "/ʊnt/"],
+      ["bleibt", "あり続けるから", "/blaɪpt/"]
+    ],
+    jp: "なぜならイエスは常にあり続けるから"
+  },
+  {
+    words: [
+      ["Der", "(冠詞)", "/deːr/"],
+      ["wahre", "真の", "/ˈvaːrə/"],
+      ["Weg", "道", "/veːk/"],
+      ["zum", "〜への", "/tsʊm/"],
+      ["Leben.", "命", "/ˈleːbən/"]
+    ],
+    jp: "命への真の道"
+  }
+];
+
+const content = document.getElementById('content');
+let stanzaEl = null;
+let stanzaIndex = 0;
+
+data.forEach(item => {
+  if (item.stanza) {
+    stanzaIndex++;
+    stanzaEl = document.createElement('div');
+    stanzaEl.className = 'stanza';
+    stanzaEl.style.animationDelay = (stanzaIndex * 0.15) + 's';
+    const hdr = document.createElement('div');
+    hdr.className = 'stanza-header';
+    hdr.innerHTML = `<span class="stanza-num">${item.stanza}</span><div class="stanza-rule"></div>`;
+    stanzaEl.appendChild(hdr);
+    content.appendChild(stanzaEl);
+    return;
+  }
+
+  const block = document.createElement('div');
+  block.className = 'line-block';
+  const lineRow = document.createElement('div');
+  lineRow.className = 'line-row';
+  const wordRow = document.createElement('div');
+  wordRow.className = 'word-row';
+
+  item.words.forEach(([orig, mean, ipa]) => {
+    const unit = document.createElement('div');
+    unit.className = 'word-unit';
+    unit.innerHTML =
+      `<span class="w-orig">${orig}</span>` +
+      `<span class="w-mean">${mean}</span>` +
+      `<span class="w-ipa">${ipa}</span>`;
+    wordRow.appendChild(unit);
+  });
+
+  const trans = document.createElement('span');
+  trans.className = 'trans-text';
+  trans.textContent = item.jp;
+
+  lineRow.appendChild(wordRow);
+  lineRow.appendChild(trans);
+  block.appendChild(lineRow);
+  stanzaEl.appendChild(block);
+});
+</script>
+</body>
+</html>
