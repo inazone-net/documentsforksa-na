@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>笙シミュレータ 画面構成モックアップ</title>
+<style>
+  :root{
+    --bg:#11151c; --panel:#1a2029; --panel2:#222b36; --line:#33414f;
+    --text:#e7edf3; --muted:#90a0b0;
+    --idle:#3a4654; --idle-stroke:#5a6b7d;
+    --armed:#2f6fb3; --armed-stroke:#7db4ec;
+    --sound:#e2a92e; --sound-stroke:#ffd873;
+    --disabled:#2a2f36; --disabled-stroke:#46505c;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,system-ui,sans-serif;}
+  .app{max-width:1080px;margin:0 auto;padding:14px;}
+  .frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel);}
+  /* header */
+  .header{display:flex;align-items:center;gap:16px;padding:12px 16px;
+    background:var(--panel2);border-bottom:1px solid var(--line);}
+  .header .logo{font-weight:700;font-size:16px;letter-spacing:.04em;}
+  .header .sp{flex:1}
+  .chip{background:#28323d;border:1px solid var(--line);border-radius:999px;
+    padding:5px 12px;font-size:13px;color:var(--text);}
+  /* stage */
+  .body{display:grid;grid-template-columns:1fr 220px;gap:12px;padding:14px;}
+  .stage{position:relative;background:radial-gradient(ellipse at center,#1d2530,#141a22);
+    border:1px solid var(--line);border-radius:10px;min-height:430px;}
+  .stage .display-toggle{position:absolute;top:10px;right:12px;}
+  .side .card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 12px;margin-bottom:10px;font-size:13px;color:var(--muted);}
+  .side .card b{color:var(--text);display:block;margin-bottom:6px;font-size:13px;}
+  .side .row{padding:4px 0;border-top:1px solid #2a333d;}
+  .side .row:first-of-type{border-top:none;}
+  /* legend */
+  .legend{display:flex;flex-wrap:wrap;gap:14px;padding:10px 16px;font-size:12.5px;
+    color:var(--muted);background:var(--panel2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .legend .k{display:inline-flex;align-items:center;gap:7px;}
+  .dot{width:14px;height:14px;border-radius:50%;display:inline-block;border:2px solid;}
+  .dot.idle{background:var(--idle);border-color:var(--idle-stroke)}
+  .dot.armed{background:var(--armed);border-color:var(--armed-stroke)}
+  .dot.sound{background:var(--sound);border-color:var(--sound-stroke)}
+  .dot.disabled{background:var(--disabled);border-color:var(--disabled-stroke)}
+  /* breath */
+  .breath{padding:14px 16px;background:var(--panel);}
+  .breath .label{font-size:13px;color:var(--muted);margin-bottom:8px;display:flex;gap:10px;align-items:center}
+  .breath .label b{color:var(--text)}
+  .bar{position:relative;height:26px;border-radius:13px;
+    background:linear-gradient(90deg,#3a5a8c 0%,#243140 38%,#243140 50%,#243140 62%,#6e5a1f 100%);
+    border:1px solid var(--line);}
+  .bar .center{position:absolute;left:50%;top:-4px;bottom:-4px;width:2px;background:#55606c;transform:translateX(-50%)}
+  .bar .thr{position:absolute;top:-4px;bottom:-4px;width:0;border-left:2px dashed #7db4ec;opacity:.7}
+  .bar .thr.r{left:62%} .bar .thr.l{left:38%}
+  .bar .marker{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;
+    background:var(--sound);border:2px solid var(--sound-stroke);transform:translate(-50%,-50%);
+    box-shadow:0 0 14px rgba(226,169,46,.6)}
+  .bar .ends{position:absolute;width:100%;display:flex;justify-content:space-between;
+    top:50%;transform:translateY(-50%);padding:0 12px;font-size:12px;color:#cdd6df;pointer-events:none}
+  .breath .controls{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+  .pill{background:#28323d;border:1px solid var(--line);border-radius:7px;padding:5px 10px;}
+  .pill.active{background:#2f6fb3;border-color:#7db4ec;color:#fff}
+  /* footer */
+  .footer{display:flex;gap:16px;align-items:center;padding:10px 16px;font-size:12.5px;
+    color:var(--muted);background:var(--panel2);border-top:1px solid var(--line)}
+  .footer .sp{flex:1}
+  .rec{color:#ff6b6b}
+  .hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);
+    background:rgba(20,26,34,.92);border:1px solid var(--armed-stroke);border-radius:9px;
+    padding:8px 14px;font-size:12.5px;color:#cfe2f7;}
+  .hint b{color:#fff}
+  .cap{max-width:1080px;margin:10px auto 0;color:#90a0b0;font-size:12px;text-align:center}
+  text{font-family:inherit}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="frame">
+    <!-- header -->
+    <div class="header">
+      <span class="logo">笙シミュレータ</span>
+      <span class="sp"></span>
+      <span class="chip">調律: 平調 ▾</span>
+      <span class="chip">基準 A4: 442Hz</span>
+      <span class="chip">⚙ 設定</span>
+    </div>
+
+    <!-- body: stage + side -->
+    <div class="body">
+      <div class="stage">
+        <span class="chip display-toggle">表示: 律名 ▾</span>
+        <svg id="ring" viewBox="0 0 560 430" width="100%" height="430" role="img" aria-label="笙リング"></svg>
+        <div class="hint">本格モード: <b>①管を選ぶ → ②息を入れる</b> と発音します</div>
+      </div>
+      <div class="side">
+        <div class="card"><b>▾ 合竹プリセット（任意）</b>
+          <div class="row">乞 / 一 / 工 / 凢 / 乙 …</div>
+          <div class="row">行 / 上 / 美 / 下 / 十 …</div>
+        </div>
+        <div class="card"><b>▾ 録音 / 書き出し</b>
+          <div class="row">● 録音</div>
+          <div class="row">WAV / MIDI 出力</div>
+        </div>
+        <div class="card"><b>▾ 入力デバイス</b>
+          <div class="row">🖱 タッチ / ⌨ キー</div>
+          <div class="row">🎹 MIDI (CC2)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- legend -->
+    <div class="legend">
+      <span class="k"><span class="dot idle"></span>idle（待機・未選択）</span>
+      <span class="k"><span class="dot armed"></span>armed（選択・<b style="color:#7db4ec">無音</b>／息待ち）</span>
+      <span class="k"><span class="dot sound"></span>sounding（発音・息で強度変化）</span>
+      <span class="k"><span class="dot disabled"></span>也・毛（無音管）</span>
+    </div>
+
+    <!-- breath -->
+    <div class="breath">
+      <div class="label">息（ブレス）　方向: <b>吹</b>　値: <b>+0.42</b>　<span style="color:#7db4ec">┊ 閾値を超え → armed管が一斉発音</span></div>
+      <div class="bar">
+        <div class="center"></div>
+        <div class="thr l"></div><div class="thr r"></div>
+        <div class="ends"><span>◀ 吸 −1.0</span><span>0</span><span>吹 +1.0 ▶</span></div>
+        <div class="marker" style="left:71%"></div>
+      </div>
+      <div class="controls">
+        <span class="pill active">本格モード ▾</span>
+        <span class="pill">息ラッチ □</span>
+        <span class="pill">Space = 息ON</span>
+        <span class="pill">↑↓ / ホイール = 息量</span>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+      <span>入力: 🖱タッチ　⌨キー　🎹MIDI(CC2)</span>
+      <span class="sp"></span>
+      <span class="rec">● 録音</span>
+      <span>状態: 発音 5管 / 待機 2管</span>
+    </div>
+  </div>
+  <div class="cap">画面構成モックアップ（ワイヤーフレーム）。配色・配列は仮。管の座標は layout/*.json でデータ駆動（UI6）。</div>
+</div>
+
+<script>
+// 17管（§1.2 順）。state: idle / armed / sounding / disabled
+const pipes = [
+  {label:"千",read:"せん",note:"B5", state:"idle"},
+  {label:"十",read:"じゅう",note:"E5", state:"armed"},
+  {label:"下",read:"げ",note:"A4", state:"idle"},
+  {label:"乙",read:"おつ",note:"C5", state:"sounding"},
+  {label:"工",read:"く",note:"D5", state:"sounding"},
+  {label:"美",read:"び",note:"F#5",state:"idle"},
+  {label:"一",read:"いち",note:"E5", state:"sounding"},
+  {label:"八",read:"はち",note:"A5", state:"idle"},
+  {label:"也",read:"や",note:"—",  state:"disabled"},
+  {label:"言",read:"ごん",note:"G5", state:"idle"},
+  {label:"七",read:"しち",note:"D6", state:"idle"},
+  {label:"行",read:"ぎょう",note:"B4",state:"sounding"},
+  {label:"上",read:"じょう",note:"C6",state:"armed"},
+  {label:"凢",read:"ぼう",note:"G5", state:"idle"},
+  {label:"乞",read:"こつ",note:"A5", state:"sounding"},
+  {label:"五",read:"ご",note:"D5",  state:"idle"},
+  {label:"毛",read:"もう",note:"—",  state:"disabled"},
+];
+const C = {
+  idle:{f:"#3a4654",s:"#5a6b7d",t:"#cfd8e0"},
+  armed:{f:"#2f6fb3",s:"#7db4ec",t:"#ffffff"},
+  sounding:{f:"#e2a92e",s:"#ffd873",t:"#241a00"},
+  disabled:{f:"#2a2f36",s:"#46505c",t:"#7a8694"},
+};
+const svg=document.getElementById("ring");
+const cx=280, cy=210, R=158, r=30;
+const NS="http://www.w3.org/2000/svg";
+function el(n,a){const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e;}
+// hatch pattern for disabled
+const defs=el("defs",{});
+defs.innerHTML=`<pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+  <rect width="6" height="6" fill="#2a2f36"/><line x1="0" y1="0" x2="0" y2="6" stroke="#46505c" stroke-width="2"/></pattern>`;
+svg.appendChild(defs);
+// center caption
+svg.appendChild(el("circle",{cx,cy,r:R+r+6,fill:"none",stroke:"#2a333d","stroke-dasharray":"3 6"}));
+const ct=el("text",{x:cx,y:cy-4,"text-anchor":"middle",fill:"#5b6776","font-size":"13"});ct.textContent="笙リング（17管・環状配置）";svg.appendChild(ct);
+const ct2=el("text",{x:cx,y:cy+16,"text-anchor":"middle",fill:"#46505c","font-size":"11"});ct2.textContent="※配列は伝統配置に倣う（データ駆動・仮）";svg.appendChild(ct2);
+
+pipes.forEach((p,i)=>{
+  const ang=-Math.PI/2 + i*(2*Math.PI/pipes.length);
+  const x=cx+R*Math.cos(ang), y=cy+R*Math.sin(ang);
+  const c=C[p.state];
+  const fill = p.state==="disabled" ? "url(#hatch)" : c.f;
+  const g=el("g",{});
+  // glow for sounding
+  if(p.state==="sounding") g.appendChild(el("circle",{cx:x,cy:y,r:r+7,fill:"#e2a92e","opacity":"0.22"}));
+  // breathing outline for armed
+  const sw = p.state==="armed"?3.5 : (p.state==="sounding"?3:2);
+  g.appendChild(el("circle",{cx:x,cy:y,r,fill,stroke:c.s,"stroke-width":sw}));
+  const t1=el("text",{x,y:y+2,"text-anchor":"middle",fill:c.t,"font-size":"20","font-weight":"700"});t1.textContent=p.label;
+  const t2=el("text",{x,y:y+18,"text-anchor":"middle",fill:p.state==="sounding"?"#3a2c00":c.t,"font-size":"10","opacity":"0.85"});t2.textContent=p.read;
+  g.appendChild(t1);g.appendChild(t2);
+  // disabled tag
+  if(p.state==="disabled"){const tg=el("text",{x,y:y-r-6,"text-anchor":"middle",fill:"#7a8694","font-size":"10"});tg.textContent="無音";g.appendChild(tg);}
+  svg.appendChild(g);
+});
+</script>
+</body>
+</html>
