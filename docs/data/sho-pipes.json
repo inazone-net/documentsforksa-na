@@ -1,0 +1,31 @@
+{
+  "$comment": "笙 楽器定義（音高・運指・配置）。confidence: confirmed=Web資料で裏取り済 / tentative=要校正(調律表で確定)。pitchPolicy: 実音(記譜は1オクターブ下)。",
+  "name": "標準",
+  "basePitchHz": 430,
+  "notationOctaveBelowSounding": true,
+  "ringOrder": ["sen","ju","ge","otsu","ku","bi","ichi","hachi","ya","gon","shichi","gyo","jo","bo","kotsu","mo","hi"],
+  "silentPipes": ["ya", "mo"],
+  "hands": {
+    "right": { "thumb": ["sen","ju","ku"], "index": ["hi","otsu","ge"] },
+    "left":  { "thumb": ["bi","ichi","hachi","gon"], "index": ["shichi"], "middle": ["gyo"], "ring": ["jo","bo","kotsu"] }
+  },
+  "pipes": [
+    { "id": "sen",    "label": "千", "reading": "せん",   "sounding": true,  "noteName": "E6",  "confidence": "tentative", "hand": "right", "finger": "thumb"  },
+    { "id": "ju",     "label": "十", "reading": "じゅう", "sounding": true,  "noteName": "G5",  "confidence": "tentative", "hand": "right", "finger": "thumb"  },
+    { "id": "ge",     "label": "下", "reading": "げ",     "sounding": true,  "noteName": "F#5", "confidence": "confirmed", "hand": "right", "finger": "index"  },
+    { "id": "otsu",   "label": "乙", "reading": "おつ",   "sounding": true,  "noteName": "E5",  "confidence": "confirmed", "hand": "right", "finger": "index"  },
+    { "id": "ku",     "label": "工", "reading": "く",     "sounding": true,  "noteName": "D5",  "confidence": "tentative", "hand": "right", "finger": "thumb"  },
+    { "id": "bi",     "label": "美", "reading": "び",     "sounding": true,  "noteName": "G#5", "confidence": "tentative", "hand": "left",  "finger": "thumb"  },
+    { "id": "ichi",   "label": "一", "reading": "いち",   "sounding": true,  "noteName": "D5",  "confidence": "tentative", "hand": "left",  "finger": "thumb"  },
+    { "id": "hachi",  "label": "八", "reading": "はち",   "sounding": true,  "noteName": "E6",  "confidence": "tentative", "hand": "left",  "finger": "thumb"  },
+    { "id": "ya",     "label": "也", "reading": "や",     "sounding": false, "noteName": null,  "confidence": "confirmed", "hand": null,    "finger": null     },
+    { "id": "gon",    "label": "言", "reading": "ごん",   "sounding": true,  "noteName": "D6",  "confidence": "tentative", "hand": "left",  "finger": "thumb"  },
+    { "id": "shichi", "label": "七", "reading": "しち",   "sounding": true,  "noteName": "B5",  "confidence": "confirmed", "hand": "left",  "finger": "index"  },
+    { "id": "gyo",    "label": "行", "reading": "ぎょう", "sounding": true,  "noteName": "A5",  "confidence": "confirmed", "hand": "left",  "finger": "middle" },
+    { "id": "jo",     "label": "上", "reading": "じょう", "sounding": true,  "noteName": "D6",  "confidence": "tentative", "hand": "left",  "finger": "ring"   },
+    { "id": "bo",     "label": "凢", "reading": "ぼう",   "sounding": true,  "noteName": "D#5", "confidence": "tentative", "hand": "left",  "finger": "ring"   },
+    { "id": "kotsu",  "label": "乞", "reading": "こつ",   "sounding": true,  "noteName": "C5",  "confidence": "tentative", "hand": "left",  "finger": "ring"   },
+    { "id": "mo",     "label": "毛", "reading": "もう",   "sounding": false, "noteName": null,  "confidence": "confirmed", "hand": null,    "finger": null     },
+    { "id": "hi",     "label": "比", "reading": "ひ",     "sounding": true,  "noteName": "C6",  "confidence": "confirmed", "hand": "right", "finger": "index"  }
+  ]
+}
