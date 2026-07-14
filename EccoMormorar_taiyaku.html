@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>エッコ・モルモラール — 対訳資料</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-mid: #3d342a;
+    --ink-light: #7a6d62;
+    --ink-faint: #b8ada4;
+    --accent: #8b4a2a;
+    --accent-soft: #c4896a;
+    --paper: #f5f0e8;
+    --paper-warm: #ede6d8;
+    --rule: #d4c9bc;
+    --blue-gloss: #3a5a7c;
+    --blue-muted: #6a8aac;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,140,0.07) 27px,
+        rgba(180,160,140,0.07) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 48px 80px;
+  }
+
+  .piece-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--rule);
+    position: relative;
+  }
+  .piece-title::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--accent-soft);
+    margin-top: 10px;
+  }
+  .piece-subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 32px;
+  }
+
+  .stanza {
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stanza-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stanza-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .stanza-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--rule), transparent);
+  }
+
+  .line-block {
+    margin-bottom: 6px;
+    padding: 4px 0;
+    transition: background 0.2s;
+  }
+  .line-block:hover {
+    background: rgba(139,74,42,0.03);
+    border-radius: 4px;
+  }
+
+  .line-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .word-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: flex-start;
+    flex: 0 0 auto;
+  }
+
+  .word-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3px;
+    min-width: 0;
+  }
+
+  .w-orig {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .w-mean {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10.5px;
+    font-weight: 300;
+    color: var(--blue-gloss);
+    margin-top: 2px;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .w-ipa {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-faint);
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .trans-text {
+    flex: 1 0 auto;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--accent-soft);
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-bottom: 3px;
+    text-align: right;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 28px;
+    padding: 6px 20px;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-light);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .print-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
+
+  @media print {
+    :root {
+      --ink: #000; --ink-mid: #000; --ink-light: #000; --ink-faint: #000;
+      --accent: #000; --accent-soft: #000; --rule: #000;
+      --blue-gloss: #000; --blue-muted: #000;
+    }
+    @page { size: A4 portrait; margin: 5mm 13mm 5mm 13mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: white !important; }
+    body::before { display: none; }
+    .print-btn { display: none; }
+    .page { max-width: 100%; padding: 0; }
+    .piece-title { font-size: 18px; margin-bottom: 2px; padding-bottom: 1.5mm; }
+    .piece-title::after { margin-top: 4px; }
+    .piece-subtitle { font-size: 8.5px; margin-bottom: 3mm; }
+    .stanza { margin-bottom: 2mm; opacity: 1; transform: none; animation: none; }
+    .stanza-header { margin-bottom: 0.8mm; }
+    .stanza-num { font-size: 8.5px; }
+    .line-block { margin-bottom: 0.4mm; padding: 0; }
+    .line-block:hover { background: none; }
+    .w-orig { font-size: 14.5px; line-height: 1.2; }
+    .w-mean { font-size: 7.5px; margin-top: 1px; line-height: 1.2; }
+    .w-ipa  { font-size: 9px; margin-top: 0; }
+    .word-unit { padding: 0 2px; }
+    .trans-text { font-size: 10.5px; padding-left: 8px; padding-bottom: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 20px 48px; }
+    .piece-title { font-size: 22px; }
+    .w-orig { font-size: 17px; }
+    .word-unit { padding: 0 5px; }
+  }
+
+  .essay {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 2px solid var(--rule);
+  }
+  .essay-header {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .essay-section {
+    margin-bottom: 28px;
+  }
+  .essay-section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .essay-section-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin: 14px 0 6px;
+  }
+  .essay-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.95;
+  }
+  .essay-schema {
+    display: block;
+    margin: 12px 0 12px 20px;
+    padding: 10px 16px;
+    background: rgba(139,74,42,0.04);
+    border-left: 2px solid var(--accent-soft);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.8;
+  }
+
+  @media print {
+    .essay { margin-top: 5mm; padding-top: 3mm; }
+    .essay-header { font-size: 8px; margin-bottom: 2mm; }
+    .essay-section { margin-bottom: 3mm; }
+    .essay-section-title { font-size: 11px; margin-bottom: 1mm; padding-bottom: 0.5mm; }
+    .essay-section-sub { font-size: 10px; margin: 2mm 0 1mm; }
+    .essay-body { font-size: 8.5px; line-height: 1.7; }
+    .essay-schema { font-size: 11px; margin: 1.5mm 0 1.5mm 4mm; padding: 1mm 3mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="print-btn" onclick="window.print()">印刷 / A4 で保存</button>
+
+  <div class="piece-title">Ecco mormorar l'onde</div>
+  <div class="piece-subtitle">トルクァート・タッソ「ほら、波がさざめく」 · イタリア語マドリガーレ（16世紀）</div>
+
+  <main id="content"></main>
+
+  <div class="essay">
+    <div class="essay-header">詩の解説</div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">作品概要</div>
+      <p class="essay-body">この詩は、トルクァート・タッソ（Torquato Tasso, 1544–1595）の『詩集（Rime）』に収められたマドリガーレ（madrigale）です。叙事詩『解放されたエルサレム』の作者として知られるタッソですが、彼はフェラーラのエステ家宮廷に仕えた抒情詩人でもあり、この詩は宮廷の名高い歌姫ラウラ・ペヴェラーラ（Laura Peverara）のために書かれた一連の詩のひとつと考えられています。夜明けの海辺の情景をわずか14行の中に描き切ったこの小品は、クラウディオ・モンテヴェルディが『マドリガーレ集第2巻』（1590年）で五声のマドリガーレとして作曲したことで、音楽史上もっとも有名なイタリア詩のひとつとなりました。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">マドリガーレという形式</div>
+      <p class="essay-body">これまでの「O sonno」（デッラ・カーサ）や「Zefiro torna」（ペトラルカ）が厳格な14行のソネットであったのに対し、本作は同じ14行でもマドリガーレ、すなわち行数にも押韻型にも固定の規則を持たない自由な抒情形式です。16世紀のマドリガーレは、7音節詩行（settenario）と11音節詩行（endecasillabo）を詩人の裁量で混ぜて構成されます。本作は大部分が軽やかな7音節詩行で進み、第3・4行と第13行の三箇所だけが11音節詩行に広がります。脚韻はほぼ全篇が二行ずつの対韻（rima baciata）です。</p>
+      <span class="essay-schema">onde / fronde &nbsp;·&nbsp; arboscelli / augelli &nbsp;·&nbsp; soavemente / oriente<br>appare / mare &nbsp;·&nbsp; cielo / gelo &nbsp;·&nbsp; indora / aurora &nbsp;·&nbsp; l'aura / ristaura</span>
+      <p class="essay-body">短い行と対韻が生む小刻みなリズムは、さざ波や葉ずれの細かな揺れをそのまま音の次元に写し取ったものであり、この形式の自由さこそが、作曲家たちがマドリガーレ詩を好んだ理由でもありました。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">構成：二つの「Ecco」と動詞の連鎖</div>
+      <p class="essay-body">詩は「ほら（Ecco）」という提示の間投詞で二度区切られます。第1行の「Ecco」は聴覚と微細な動き（波のさざめき、葉むらの震え、小鳥の歌）による夜明け前の気配を、第7行の「ecco già」は曙そのものの出現を告げます。気配から出現へ――この二段構えが、時間の経過を目に見える形にしています。</p>
+      <div class="essay-section-sub">多接続詞法（polisindeto）</div>
+      <p class="essay-body">全14行のうち実に9行が接続詞「e（そして）」で始まります。行頭に「e」を積み重ねる多接続詞法は、夜明けの諸現象が次々と、途切れることなく生起していく様子を統辞のレベルで再現するものです。</p>
+      <div class="essay-section-sub">曙の五つの動詞</div>
+      <p class="essay-body">後半では、擬人化された曙（alba）が主語となり、五つの動詞を従えます。</p>
+      <span class="essay-schema">appare（現れ）→ si specchia(海に映り)→ rasserena（空を晴らし）→ imperla（霜を真珠に変え）→ indora（山々を黄金に染める）</span>
+      <p class="essay-body">出現から始まり、水面、天空、地表の霜、そして山巓へと、光が世界を順に染め上げていく運動が、動詞の連鎖として構成されています。特に <em>imperla</em>（真珠で飾る）と <em>indora</em>（黄金で覆う）という二つの動詞は、朝の光を宝石細工に見立てる、マニエリスム期らしい精緻な比喩です。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">「l'aura」の言葉遊び：ペトラルカからタッソへ</div>
+      <p class="essay-body">この詩の核心は、結びの三行に仕掛けられた音の戯れにあります。</p>
+      <span class="essay-schema">O bella e vaga aurora, / l'aura è tua messaggiera, e tu de l'aura / ch'ogni arso cor ristaura.</span>
+      <p class="essay-body"><em>l'aura</em>（そよ風）と <em>aurora</em>（曙）は音を共有し、さらに <em>l'aura</em> は <em>Laura</em>（ラウラ）と完全に同音です。「そよ風／ラウラ」の掛詞は、ペトラルカが『カンツォニエーレ』全体を通して愛人ラウラの名に織り込み続けた最も有名な言葉遊びであり、タッソはそれを、自らが仕える歌姫ラウラ・ペヴェラーラへの隠された賛辞として引き継いでいます。表向きは自然の暁を歌いながら、その裏で「ラウラは曙の使いであり、曙はラウラの使いである」という相互の讃美が響くのです。</p>
+      <p class="essay-body" style="margin-top:10px;">第13行の「l'aura è tua messaggiera, e tu de l'aura」は交差配語法（キアスムス）の構文で、風と曙が互いを写し合う鏡のような関係に置かれます。そして最終行、<em>arso</em>（焼け焦げた）と <em>ristaura</em>（癒す・回復させる）の対比が詩を閉じます。「焼け焦げた心」とは恋の炎に焦がれる心の伝統的な暗喩であり、涼やかな朝風がそれを癒すという結びは、自然描写の全体を恋愛詩へと静かに反転させます。<em>arso</em> の中に <em>aura</em> とほぼ同じ音が含まれていることまで含めて、音による設計が徹底された終結部です。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">モンテヴェルディによる作曲</div>
+      <p class="essay-body">クラウディオ・モンテヴェルディ（Claudio Monteverdi, 1567–1643)は『マドリガーレ集第2巻（Il secondo libro de madrigali a cinque voci）』（1590年）でこの詩を五声のマドリガーレとして作曲しました。低声部から順に積み上がる冒頭の模倣は波のさざめきを、細かな音符の連なりは葉の震えや小鳥のさえずりを描き、詩の一語一語を音型で写し取る「マドリガリズム（音画法）」の見事な実例となっています。タッソの詩がもともと持っていた「音の設計」――対韻、多接続詞法、l'aura の同音反復――が、音楽への翻訳をあらかじめ準備していたと言うこともできるでしょう。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">本文について：古語・詩語</div>
+      <p class="essay-body">本文には16世紀の詩語が散見されます。<em>aura</em>（= brezza、「そよ風」の詩語）、<em>augelli</em>（= uccelli、「鳥たち」の詩語）、<em>vaghi</em>（「愛らしい・美しい」。現代語の「漠然とした」ではなく、当時の詩語として「魅力的な」の意）、<em>arboscelli</em>（「若木・小さな木々」）、<em>imperla</em>（「真珠で飾る」）、<em>indora</em>（= dora、「黄金色に染める」）、<em>messaggiera</em>（「使者」の女性形）、<em>ristaura</em>（= ristora、「癒す・元気づける」の古形。脚韻 aura との響き合いのために選ばれた形）などが代表的です。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { stanza: "第一部 · 夜明けの気配（第1〜6行）" },
+  {
+    words: [
+      ["Ecco", "ほら", "/ˈɛkko/"],
+      ["mormorar", "さざめくのを", "/mormoˈrar/"],
+      ["l'onde", "波が", "/ˈlonde/"]
+    ],
+    jp: "ほら、波がさざめき"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["tremolar", "そよぐのを", "/tremoˈlar/"],
+      ["le", "その", "/le/"],
+      ["fronde", "葉むらが", "/ˈfronde/"]
+    ],
+    jp: "葉むらが震える"
+  },
+  {
+    words: [
+      ["a", "〜に", "/a/"],
+      ["l'aura", "そよ風", "/ˈlaura/"],
+      ["mattutina", "朝の", "/mattuˈtiːna/"],
+      ["e", "そして", "/e/"],
+      ["gli", "その", "/ʎi/"],
+      ["arboscelli,", "若木たちも", "/arboʃˈʃɛlli/"]
+    ],
+    jp: "朝のそよ風に――若木たちも揺れる"
+  },
+  {
+    words: [
+      ["E", "そして", "/e/"],
+      ["sovra", "〜の上で", "/ˈsoːvra/"],
+      ["i", "その", "/i/"],
+      ["verdi", "緑の", "/ˈverdi/"],
+      ["rami", "枝々", "/ˈraːmi/"],
+      ["i", "その", "/i/"],
+      ["vaghi", "愛らしい", "/ˈvaːɡi/"],
+      ["augelli", "小鳥たちが", "/auˈdʒɛlli/"]
+    ],
+    jp: "そして緑の枝々の上では、愛らしい小鳥たちが"
+  },
+  {
+    words: [
+      ["cantar", "歌うのを", "/kanˈtar/"],
+      ["soavemente", "やさしく", "/soaveˈmente/"]
+    ],
+    jp: "やさしく歌い"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["rider", "微笑むのを", "/ˈriːder/"],
+      ["l'oriente,", "東の空が", "/loriˈɛnte/"]
+    ],
+    jp: "東の空が微笑む"
+  },
+  { stanza: "第二部 · 曙の出現（第7〜11行）" },
+  {
+    words: [
+      ["ecco", "ほら", "/ˈɛkko/"],
+      ["già", "はや", "/dʒa/"],
+      ["l'alba", "曙が", "/ˈlalba/"],
+      ["appare", "姿を現す", "/apˈpaːre/"]
+    ],
+    jp: "ほら、はや曙が姿を現し"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["si specchia", "おのれを映す", "/si ˈspɛkkja/"],
+      ["nel", "〜の中に", "/nel/"],
+      ["mare", "海", "/ˈmaːre/"]
+    ],
+    jp: "海に自らの姿を映し"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["rasserena", "晴れわたらせる", "/rasseˈreːna/"],
+      ["il", "その", "/il/"],
+      ["cielo", "空を", "/ˈtʃɛːlo/"]
+    ],
+    jp: "空を晴れわたらせ"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["imperla", "真珠に変える", "/imˈpɛrla/"],
+      ["il", "その", "/il/"],
+      ["dolce", "甘やかな", "/ˈdoltʃe/"],
+      ["gelo", "霜を", "/ˈdʒeːlo/"]
+    ],
+    jp: "甘やかな霜を真珠に変え"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["gli", "その", "/ʎi/"],
+      ["alti", "高い", "/ˈalti/"],
+      ["monti", "山々を", "/ˈmonti/"],
+      ["indora.", "黄金に染める", "/inˈdoːra/"]
+    ],
+    jp: "高き山々を黄金に染める"
+  },
+  { stanza: "結び · 曙への呼びかけ（第12〜14行）" },
+  {
+    words: [
+      ["O", "おお", "/o/"],
+      ["bella", "美しく", "/ˈbɛlla/"],
+      ["e", "〜で", "/e/"],
+      ["vaga", "愛らしい", "/ˈvaːɡa/"],
+      ["aurora,", "曙よ", "/auˈrɔːra/"]
+    ],
+    jp: "おお、美しく愛らしい曙よ"
+  },
+  {
+    words: [
+      ["l'aura", "そよ風は", "/ˈlaura/"],
+      ["è", "〜である", "/ɛ/"],
+      ["tua", "汝の", "/ˈtua/"],
+      ["messaggiera,", "使い", "/messadˈdʒɛːra/"],
+      ["e", "そして", "/e/"],
+      ["tu", "汝は", "/tu/"],
+      ["de l'aura", "そよ風の（使い）", "/de ˈlaura/"]
+    ],
+    jp: "そよ風は汝の使い、そして汝はそよ風の使い"
+  },
+  {
+    words: [
+      ["ch'ogni", "あらゆる〜を…する", "/ˈkoɲɲi/"],
+      ["arso", "焦がれた", "/ˈarso/"],
+      ["cor", "心", "/kor/"],
+      ["ristaura.", "癒す", "/risˈtaura/"]
+    ],
+    jp: "――焦がれ疲れたすべての心を癒す、あのそよ風の"
+  }
+];
+
+const content = document.getElementById('content');
+let stanzaEl = null;
+let stanzaIndex = 0;
+
+data.forEach(item => {
+  if (item.stanza) {
+    stanzaIndex++;
+    stanzaEl = document.createElement('div');
+    stanzaEl.className = 'stanza';
+    stanzaEl.style.animationDelay = (stanzaIndex * 0.15) + 's';
+    const hdr = document.createElement('div');
+    hdr.className = 'stanza-header';
+    hdr.innerHTML = `<span class="stanza-num">${item.stanza}</span><div class="stanza-rule"></div>`;
+    stanzaEl.appendChild(hdr);
+    content.appendChild(stanzaEl);
+    return;
+  }
+
+  const block = document.createElement('div');
+  block.className = 'line-block';
+  const lineRow = document.createElement('div');
+  lineRow.className = 'line-row';
+  const wordRow = document.createElement('div');
+  wordRow.className = 'word-row';
+
+  item.words.forEach(([orig, mean, ipa]) => {
+    const unit = document.createElement('div');
+    unit.className = 'word-unit';
+    unit.innerHTML =
+      `<span class="w-orig">${orig}</span>` +
+      `<span class="w-mean">${mean}</span>` +
+      `<span class="w-ipa">${ipa}</span>`;
+    wordRow.appendChild(unit);
+  });
+
+  const trans = document.createElement('span');
+  trans.className = 'trans-text';
+  trans.textContent = item.jp;
+
+  lineRow.appendChild(wordRow);
+  lineRow.appendChild(trans);
+  block.appendChild(lineRow);
+  stanzaEl.appendChild(block);
+});
+</script>
+</body>
+</html>
