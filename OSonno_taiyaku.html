@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>オ・ソンノ — 対訳資料</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-mid: #3d342a;
+    --ink-light: #7a6d62;
+    --ink-faint: #b8ada4;
+    --accent: #8b4a2a;
+    --accent-soft: #c4896a;
+    --paper: #f5f0e8;
+    --paper-warm: #ede6d8;
+    --rule: #d4c9bc;
+    --blue-gloss: #3a5a7c;
+    --blue-muted: #6a8aac;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,140,0.07) 27px,
+        rgba(180,160,140,0.07) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 48px 80px;
+  }
+
+  .piece-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--rule);
+    position: relative;
+  }
+  .piece-title::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--accent-soft);
+    margin-top: 10px;
+  }
+  .piece-subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 32px;
+  }
+
+  .stanza {
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stanza-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stanza-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .stanza-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--rule), transparent);
+  }
+
+  .line-block {
+    margin-bottom: 6px;
+    padding: 4px 0;
+    transition: background 0.2s;
+  }
+  .line-block:hover {
+    background: rgba(139,74,42,0.03);
+    border-radius: 4px;
+  }
+
+  .line-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .word-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: flex-start;
+    flex: 0 0 auto;
+  }
+
+  .word-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3px;
+    min-width: 0;
+  }
+
+  .w-orig {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .w-mean {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10.5px;
+    font-weight: 300;
+    color: var(--blue-gloss);
+    margin-top: 2px;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .w-ipa {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-faint);
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .trans-text {
+    flex: 1 0 auto;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--accent-soft);
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-bottom: 3px;
+    text-align: right;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 28px;
+    padding: 6px 20px;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-light);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .print-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
+
+  @media print {
+    :root {
+      --ink: #000; --ink-mid: #000; --ink-light: #000; --ink-faint: #000;
+      --accent: #000; --accent-soft: #000; --rule: #000;
+      --blue-gloss: #000; --blue-muted: #000;
+    }
+    @page { size: A4 portrait; margin: 5mm 13mm 5mm 13mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: white !important; }
+    body::before { display: none; }
+    .print-btn { display: none; }
+    .page { max-width: 100%; padding: 0; }
+    .piece-title { font-size: 18px; margin-bottom: 2px; padding-bottom: 1.5mm; }
+    .piece-title::after { margin-top: 4px; }
+    .piece-subtitle { font-size: 8.5px; margin-bottom: 3mm; }
+    .stanza { margin-bottom: 2mm; opacity: 1; transform: none; animation: none; }
+    .stanza-header { margin-bottom: 0.8mm; }
+    .stanza-num { font-size: 8.5px; }
+    .line-block { margin-bottom: 0.4mm; padding: 0; }
+    .line-block:hover { background: none; }
+    .w-orig { font-size: 14.5px; line-height: 1.2; }
+    .w-mean { font-size: 7.5px; margin-top: 1px; line-height: 1.2; }
+    .w-ipa  { font-size: 9px; margin-top: 0; }
+    .word-unit { padding: 0 2px; }
+    .trans-text { font-size: 10.5px; padding-left: 8px; padding-bottom: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 20px 48px; }
+    .piece-title { font-size: 22px; }
+    .w-orig { font-size: 17px; }
+    .word-unit { padding: 0 5px; }
+  }
+
+  .essay {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 2px solid var(--rule);
+  }
+  .essay-header {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .essay-section {
+    margin-bottom: 28px;
+  }
+  .essay-section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .essay-section-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin: 14px 0 6px;
+  }
+  .essay-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.95;
+  }
+  .essay-schema {
+    display: block;
+    margin: 12px 0 12px 20px;
+    padding: 10px 16px;
+    background: rgba(139,74,42,0.04);
+    border-left: 2px solid var(--accent-soft);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.8;
+  }
+
+  @media print {
+    .essay { margin-top: 5mm; padding-top: 3mm; }
+    .essay-header { font-size: 8px; margin-bottom: 2mm; }
+    .essay-section { margin-bottom: 3mm; }
+    .essay-section-title { font-size: 11px; margin-bottom: 1mm; padding-bottom: 0.5mm; }
+    .essay-section-sub { font-size: 10px; margin: 2mm 0 1mm; }
+    .essay-body { font-size: 8.5px; line-height: 1.7; }
+    .essay-schema { font-size: 11px; margin: 1.5mm 0 1.5mm 4mm; padding: 1mm 3mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="print-btn" onclick="window.print()">印刷 / A4 で保存</button>
+
+  <div class="piece-title">O sonno</div>
+  <div class="piece-subtitle">ジョヴァンニ・デッラ・カーサ「眠りに寄す」 · イタリア語ソネット（16世紀）</div>
+
+  <main id="content"></main>
+
+  <div class="essay">
+    <div class="essay-header">詩の解説</div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">作品概要</div>
+      <p class="essay-body">この詩は、ジョヴァンニ・デッラ・カーサ（Giovanni Della Casa, 1503–1556）による代表的なソネットで、彼の死後に刊行された『詩集（Rime）』（1558年）に収められています。デッラ・カーサは礼儀作法書『ガラテーオ（Il Galateo）』の著者として知られますが、詩人としても16世紀イタリア詩史上重要な人物であり、ピエトロ・ベンボが範とした滑らかで均整の取れたペトラルカ主義（bembismo）に対し、あえて音の硬さ・重さ・詰まりを追求する「峻厳体（asprezza）」の詩法を切り開いたことで知られます。本作「眠りよ（O sonno）」はその代表作であり、不眠に苦しむ話者が擬人化された〈眠り〉に呼びかけながら、ついにその訪れを得られぬまま終わるという構成を持っています。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">ソネットの型と二部構成</div>
+      <p class="essay-body">形式は伝統的なペトラルカ風ソネットで、11音節詩行（endecasillabo）14行から成り、脚韻は次の通り規則的です。</p>
+      <span class="essay-schema">quartina I  &nbsp;A B B A<br>quartina II &nbsp;A B B A<br>terzina I&nbsp;&nbsp;&nbsp; C D C<br>terzina II&nbsp; D C D</span>
+      <p class="essay-body">脚韻という枠組みは古典的なまでに整っていますが、内部の統語法はきわめて破格です。呼格・関係節・倒置（ヒュペルバトン）が行をまたいで連続し、読者は文の主語や動詞になかなか行き着けません。この「型の規則性」と「統語の硬さ」との落差こそが、デッラ・カーサの狙いだったと考えられています。</p>
+
+      <div class="essay-section-sub">四行連（第1〜8行）：懇願</div>
+      <p class="essay-body">前半の二つの四行連は、〈眠り〉への呼びかけと懇願で貫かれています。話者はまず眠りの出自と性質を並べ立て（静かな夜の子、病める者の慰め、苦しみの忘却）、続けて三段階の命令法で訴えます。</p>
+      <span class="essay-schema">Soccorri（救いたまえ）→ Solleva（起き上がらせたまえ）→ distendi e posa（広げ、下ろしたまえ）</span>
+      <p class="essay-body">この三つの動詞は、心を「助ける」ことから始まり、疲れた身体を「持ち上げる」ことへ、そして最後に眠りの翼を「広げて置く」という具体的で身体的なしぐさへと収斂していきます。懇願が抽象から具体へ、遠いものから近いものへと近づいていく構成です。</p>
+
+      <div class="essay-section-sub">三行連（第9〜14行）：不在の確認と絶望</div>
+      <p class="essay-body">後半の二つの三行連では調子が一転します。第一三行連は「静寂はどこにあるのか」「軽やかな夢たちはどこにあるのか」という二つの疑問文で、本来〈眠り〉に伴うはずのものの不在を確かめます。そして第二三行連で、話者はついに懇願が虚しかったことを認めます。</p>
+      <span class="essay-schema">invan te chiamo（虚しく汝を呼ぶ）… invan lusingo（虚しくなだめすかす）</span>
+      <p class="essay-body"><em>invan</em>（虚しく）の反復は、前半の三段階の命令（soccorri／solleva／distendi e posa）と正確に対をなす失敗の身振りです。呼びかけの動詞は同じ話者の口から出ていながら、今度は何の応答も引き出せません。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">眠りの系譜と古典的典拠</div>
+      <p class="essay-body">第1〜2行「静かに湿り気を帯び、影深き夜の、穏やかな子」は、〈眠り〉を擬人化するだけでなく、その母を〈夜〉とする系譜を示しています。夜の子としての眠り、そして黒褐色の翼を持つ有翼の存在という像（第7〜8行 <em>l'ali tue brune</em>）は、ギリシア・ローマの神話的系譜（夜の女神の子としての眠りの神）を踏まえたものです。この「眠りへの呼びかけ」という主題そのものが、古代ローマの詩人スタティウスの『シルウァエ』第5巻第4歌（Somnus に呼びかける有名な一篇、"Crimine quo merui, iuvenis placidissime divum..." で始まる)を範としており、デッラ・カーサはこの古典的な主題（トポス）をイタリア語のソネット形式へ移し替えたと理解されています。この主題は後にシドニーやダニエルなど他国の詩人たちにも受け継がれていきました。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">結び：撞着語法と「峻厳体」の完成</div>
+      <p class="essay-body">最終行にいたる二行は、この詩全体の緊張を凝縮しています。</p>
+      <span class="essay-schema">o piume / D'asprezza colme, o notti acerb' e dure</span>
+      <p class="essay-body"><em>piume</em>（羽毛、羽枕）は本来やわらかく安らぎを与えるはずのものですが、それが「苛烈さ（asprezza）に満ちた」ものとして呼びかけられます。柔らかさの表象が硬さで満たされるという撞着語法（オクシモロン）は、単なる修辞的技巧ではなく、デッラ・カーサ自身が実践した詩法――滑らかなペトラルカ風の詩に、あえてラテン語的な語順の乱れ、重い子音の連続、行またぎ（enjambement）を持ち込む「asprezza（峻厳体）」――を、テーマの次元でも体現していると言えます。安らぎを求める言葉そのものが安らぎを得られずに終わる、その不一致が、この詩の最後の一行「おお、過酷で辛い夜々よ」に集約されています。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">本文について:古語・省略形</div>
+      <p class="essay-body">本文には韻律（endecasillabo）を保つための古語・省略形が多く見られます。<em>queta</em>（= quieta）、<em>egri</em>（= egro／egri、ラテン語 aeger 由来の詩語で「病んだ」の意）、<em>ond'è</em>（= onde è、「それゆえに〜である」）、<em>langue</em>（= languisce、「衰弱する」）、<em>have</em>（= ha、「持つ」の古形）、<em>ten vola</em>（= volatene、再帰的命令形「飛び去れ」の倒置）、<em>lasso</em>（= ahimè、「ああ哀れな私は」という古い感嘆詞）、<em>invan</em>（= invano、「虚しく」）などが代表的です。これらはいずれも当時すでにやや古風な、あるいは方言的・詩語的な形であり、デッラ・カーサはこれを選ぶことで、なめらかな口語的響きをあえて避けています。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { stanza: "第一四行連 · Quartina I" },
+  {
+    words: [
+      ["O", "おお", "/o/"],
+      ["sonno,", "眠りよ", "/ˈsɔnno/"],
+      ["o", "おお", "/o/"],
+      ["della", "〜の", "/ˈdɛlla/"],
+      ["queta,", "静かな", "/ˈkweːta/"],
+      ["umida,", "湿った", "/ˈuːmida/"],
+      ["ombrosa", "影深い", "/omˈbroːza/"]
+    ],
+    jp: "おお眠りよ、静かに湿り気を帯び、影深き"
+  },
+  {
+    words: [
+      ["Notte", "夜の", "/ˈnɔtte/"],
+      ["placido", "穏やかな", "/ˈplaːtʃido/"],
+      ["figlio,", "子よ", "/ˈfiʎːo/"],
+      ["o", "おお", "/o/"],
+      ["de'", "〜たちの", "/de/"],
+      ["mortali", "死すべき者", "/morˈtaːli/"]
+    ],
+    jp: "夜の穏やかな子よ。おお、死すべき者たちの"
+  },
+  {
+    words: [
+      ["Egri", "病める者の", "/ˈɛːɡri/"],
+      ["conforto,", "慰めよ", "/konˈfɔrto/"],
+      ["oblio", "忘却よ", "/obˈliːo/"],
+      ["dolce", "甘い", "/ˈdoltʃe/"],
+      ["de'", "〜の", "/de/"],
+      ["mali", "苦しみ", "/ˈmaːli/"]
+    ],
+    jp: "病める者の慰めよ、かくも重い苦しみの甘き忘却よ"
+  },
+  {
+    words: [
+      ["Si", "そんなにも", "/si/"],
+      ["gravi,", "重い", "/ˈɡraːvi/"],
+      ["ond'è", "それゆえに〜である", "/onˈdɛ/"],
+      ["la", "その", "/la/"],
+      ["vita", "人生は", "/ˈviːta/"],
+      ["aspra", "厳しく", "/ˈaspra/"],
+      ["e", "そして", "/e/"],
+      ["noiosa", "煩わしい", "/nojˈoːza/"]
+    ],
+    jp: "――それゆえに人生は苦く煩わしいものとなる"
+  },
+  { stanza: "第二四行連 · Quartina II" },
+  {
+    words: [
+      ["Soccorri", "救いたまえ", "/sokˈkorri/"],
+      ["al", "〜に", "/al/"],
+      ["cor", "心", "/kor/"],
+      ["omai,", "今こそ", "/oˈmai/"],
+      ["che", "〜は", "/ke/"],
+      ["langu'", "衰える", "/ˈlaŋɡwe/"],
+      ["e", "そして", "/e/"],
+      ["posa", "休息を", "/ˈpɔːza/"]
+    ],
+    jp: "今こそこの心を救いたまえ。衰え、休息も"
+  },
+  {
+    words: [
+      ["Non", "〜ない", "/non/"],
+      ["have,", "持たぬ", "/ˈaːve/"],
+      ["e", "そして", "/e/"],
+      ["queste", "これらの", "/ˈkweste/"],
+      ["membra", "この身を", "/ˈmɛmbra/"],
+      ["stanch'", "疲れ果て", "/ˈstaŋke/"],
+      ["e", "〜と", "/e/"],
+      ["frali", "脆い", "/ˈfraːli/"]
+    ],
+    jp: "持たぬこの心と、この疲れ果て脆きこの身を"
+  },
+  {
+    words: [
+      ["Solleva:", "起こしたまえ", "/solˈleːva/"],
+      ["a", "〜へ", "/a/"],
+      ["me", "私", "/me/"],
+      ["ten", "汝自身を", "/ten/"],
+      ["vola,", "飛ばせよ", "/ˈvɔːla/"],
+      ["o", "おお", "/o/"],
+      ["sonno,", "眠りよ", "/ˈsɔnno/"],
+      ["e", "そして", "/e/"],
+      ["l'ali", "その翼を", "/ˈlaːli/"]
+    ],
+    jp: "起こしたまえ。私のもとへ飛び来たれ、おお眠りよ。そして翼を"
+  },
+  {
+    words: [
+      ["Tue", "汝の", "/ˈtue/"],
+      ["brune", "黒褐色の", "/ˈbruːne/"],
+      ["sovra", "〜の上に", "/ˈsɔːvra/"],
+      ["me", "私", "/me/"],
+      ["distendi", "広げよ", "/disˈtɛndi/"],
+      ["e", "そして", "/e/"],
+      ["posa", "下ろせ", "/ˈpɔːza/"]
+    ],
+    jp: "汝の黒褐色の翼を私の上に広げ、そっと下ろしたまえ"
+  },
+  { stanza: "第一三行連 · Terzina I" },
+  {
+    words: [
+      ["Ov'è", "どこにあるか", "/oˈvɛ/"],
+      ["'l", "その", "/il/"],
+      ["silentio", "静寂は", "/siˈlɛntsjo/"],
+      ["che'l", "その", "/kel/"],
+      ["dì", "昼を", "/di/"],
+      ["fugge", "逃れ", "/ˈfudːʒe/"],
+      ["e'l", "その", "/el/"],
+      ["lume?", "光を", "/ˈluːme/"]
+    ],
+    jp: "昼と光から逃れゆく、あの静寂はどこにあるのか"
+  },
+  {
+    words: [
+      ["E", "そして", "/e/"],
+      ["i", "その", "/i/"],
+      ["lievi", "軽やかな", "/ˈljɛːvi/"],
+      ["sogni,", "夢たちは", "/ˈsoɲːi/"],
+      ["che", "〜という", "/ke/"],
+      ["con", "〜で", "/kon/"],
+      ["non", "〜ない", "/non/"],
+      ["secure", "確かな", "/seˈkuːre/"]
+    ],
+    jp: "そして、おぼつかぬ足取りで"
+  },
+  {
+    words: [
+      ["Vestigia", "足取り", "/vesˈtiːdʒa/"],
+      ["di", "〜の", "/di/"],
+      ["seguirti", "汝を追うこと", "/seˈɡwirti/"],
+      ["han", "する", "/an/"],
+      ["per", "〜を", "/per/"],
+      ["costume?", "習わしと", "/kosˈtuːme/"]
+    ],
+    jp: "汝を追うのを常とする、あの軽やかな夢たちはどこにあるのか"
+  },
+  { stanza: "第二三行連 · Terzina II" },
+  {
+    words: [
+      ["Lasso,", "ああ哀れな私は", "/ˈlasso/"],
+      ["ch'invan", "虚しく〜だから", "/kinˈvan/"],
+      ["te", "汝を", "/te/"],
+      ["chiamo,", "呼ぶ", "/ˈkjaːmo/"],
+      ["e", "そして", "/e/"],
+      ["queste", "これらの", "/ˈkweste/"],
+      ["oscure", "暗い", "/osˈkuːre/"]
+    ],
+    jp: "ああ、虚しく汝を呼ぶ我よ。そしてこの暗く"
+  },
+  {
+    words: [
+      ["E", "そして", "/e/"],
+      ["gelide", "冷たい", "/ˈdʒɛːlide/"],
+      ["ombre", "影を", "/ˈombre/"],
+      ["invan", "虚しく", "/inˈvan/"],
+      ["lusingo,", "なだめすかす", "/luˈzingo/"],
+      ["o", "おお", "/o/"],
+      ["piume", "羽枕よ", "/ˈpjuːme/"]
+    ],
+    jp: "冷たき影をも虚しくなだめすかす。おお、羽枕よ"
+  },
+  {
+    words: [
+      ["D'asprezza", "苛烈さに", "/dasˈprɛttsa/"],
+      ["colme,", "満ちた", "/ˈkolme/"],
+      ["o", "おお", "/o/"],
+      ["notti", "夜々よ", "/ˈnɔtti/"],
+      ["acerb'", "辛く", "/aˈtʃɛrbe/"],
+      ["e", "〜と", "/e/"],
+      ["dure", "厳しい", "/ˈduːre/"]
+    ],
+    jp: "苛烈さに満ちたる。おお、過酷で辛い夜々よ"
+  }
+];
+
+const content = document.getElementById('content');
+let stanzaEl = null;
+let stanzaIndex = 0;
+
+data.forEach(item => {
+  if (item.stanza) {
+    stanzaIndex++;
+    stanzaEl = document.createElement('div');
+    stanzaEl.className = 'stanza';
+    stanzaEl.style.animationDelay = (stanzaIndex * 0.15) + 's';
+    const hdr = document.createElement('div');
+    hdr.className = 'stanza-header';
+    hdr.innerHTML = `<span class="stanza-num">${item.stanza}</span><div class="stanza-rule"></div>`;
+    stanzaEl.appendChild(hdr);
+    content.appendChild(stanzaEl);
+    return;
+  }
+
+  const block = document.createElement('div');
+  block.className = 'line-block';
+  const lineRow = document.createElement('div');
+  lineRow.className = 'line-row';
+  const wordRow = document.createElement('div');
+  wordRow.className = 'word-row';
+
+  item.words.forEach(([orig, mean, ipa]) => {
+    const unit = document.createElement('div');
+    unit.className = 'word-unit';
+    unit.innerHTML =
+      `<span class="w-orig">${orig}</span>` +
+      `<span class="w-mean">${mean}</span>` +
+      `<span class="w-ipa">${ipa}</span>`;
+    wordRow.appendChild(unit);
+  });
+
+  const trans = document.createElement('span');
+  trans.className = 'trans-text';
+  trans.textContent = item.jp;
+
+  lineRow.appendChild(wordRow);
+  lineRow.appendChild(trans);
+  block.appendChild(lineRow);
+  stanzaEl.appendChild(block);
+});
+</script>
+</body>
+</html>
