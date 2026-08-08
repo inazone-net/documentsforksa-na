@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ゼフィロ・トルナ — 対訳資料</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --ink-mid: #3d342a;
+    --ink-light: #7a6d62;
+    --ink-faint: #b8ada4;
+    --accent: #8b4a2a;
+    --accent-soft: #c4896a;
+    --paper: #f5f0e8;
+    --paper-warm: #ede6d8;
+    --rule: #d4c9bc;
+    --blue-gloss: #3a5a7c;
+    --blue-muted: #6a8aac;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 27px,
+        rgba(180,160,140,0.07) 27px,
+        rgba(180,160,140,0.07) 28px
+      );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 48px 80px;
+  }
+
+  .piece-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1.5px solid var(--rule);
+    position: relative;
+  }
+  .piece-title::after {
+    content: '';
+    display: block;
+    width: 36px;
+    height: 1px;
+    background: var(--accent-soft);
+    margin-top: 10px;
+  }
+  .piece-subtitle {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--ink-light);
+    margin-bottom: 32px;
+  }
+
+  .stanza {
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stanza-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .stanza-num {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .stanza-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--rule), transparent);
+  }
+
+  .line-block {
+    margin-bottom: 6px;
+    padding: 4px 0;
+    transition: background 0.2s;
+  }
+  .line-block:hover {
+    background: rgba(139,74,42,0.03);
+    border-radius: 4px;
+  }
+
+  .line-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    width: 100%;
+  }
+
+  .word-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+    align-items: flex-start;
+    flex: 0 0 auto;
+  }
+
+  .word-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 3px;
+    min-width: 0;
+  }
+
+  .w-orig {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    white-space: nowrap;
+  }
+
+  .w-mean {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 10.5px;
+    font-weight: 300;
+    color: var(--blue-gloss);
+    margin-top: 2px;
+    white-space: nowrap;
+    line-height: 1.3;
+  }
+
+  .w-ipa {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--ink-faint);
+    margin-top: 1px;
+    white-space: nowrap;
+  }
+
+  .trans-text {
+    flex: 1 0 auto;
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--accent-soft);
+    white-space: nowrap;
+    padding-left: 18px;
+    padding-bottom: 3px;
+    text-align: right;
+  }
+
+  .print-btn {
+    display: block;
+    margin: 0 auto 28px;
+    padding: 6px 20px;
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-light);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .print-btn:hover { border-color: var(--accent-soft); color: var(--accent); }
+
+  @media print {
+    :root {
+      --ink: #000; --ink-mid: #000; --ink-light: #000; --ink-faint: #000;
+      --accent: #000; --accent-soft: #000; --rule: #000;
+      --blue-gloss: #000; --blue-muted: #000;
+    }
+    @page { size: A4 portrait; margin: 5mm 13mm 5mm 13mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body { background: white !important; }
+    body::before { display: none; }
+    .print-btn { display: none; }
+    .page { max-width: 100%; padding: 0; }
+    .piece-title { font-size: 18px; margin-bottom: 2px; padding-bottom: 1.5mm; }
+    .piece-title::after { margin-top: 4px; }
+    .piece-subtitle { font-size: 8.5px; margin-bottom: 3mm; }
+    .stanza { margin-bottom: 2mm; opacity: 1; transform: none; animation: none; }
+    .stanza-header { margin-bottom: 0.8mm; }
+    .stanza-num { font-size: 8.5px; }
+    .line-block { margin-bottom: 0.4mm; padding: 0; }
+    .line-block:hover { background: none; }
+    .w-orig { font-size: 14.5px; line-height: 1.2; }
+    .w-mean { font-size: 7.5px; margin-top: 1px; line-height: 1.2; }
+    .w-ipa  { font-size: 9px; margin-top: 0; }
+    .word-unit { padding: 0 2px; }
+    .trans-text { font-size: 10.5px; padding-left: 8px; padding-bottom: 0; }
+  }
+
+  @media (max-width: 600px) {
+    .page { padding: 32px 20px 48px; }
+    .piece-title { font-size: 22px; }
+    .w-orig { font-size: 17px; }
+    .word-unit { padding: 0 5px; }
+    .word-row { flex-wrap: wrap; max-width: 100%; }
+    .trans-text {
+      flex: 1 1 100%;
+      white-space: normal;
+      padding-left: 0;
+      padding-top: 4px;
+    }
+  }
+
+  .essay {
+    margin-top: 56px;
+    padding-top: 28px;
+    border-top: 2px solid var(--rule);
+  }
+  .essay-header {
+    font-family: 'EB Garamond', serif;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .essay-section {
+    margin-bottom: 28px;
+  }
+  .essay-section-title {
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .essay-section-sub {
+    font-family: 'EB Garamond', serif;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ink-mid);
+    margin: 14px 0 6px;
+  }
+  .essay-body {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--ink-mid);
+    line-height: 1.95;
+  }
+  .essay-schema {
+    display: block;
+    margin: 12px 0 12px 20px;
+    padding: 10px 16px;
+    background: rgba(139,74,42,0.04);
+    border-left: 2px solid var(--accent-soft);
+    font-family: 'EB Garamond', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--ink-mid);
+    line-height: 1.8;
+  }
+
+  @media print {
+    .essay { margin-top: 5mm; padding-top: 3mm; }
+    .essay-header { font-size: 8px; margin-bottom: 2mm; }
+    .essay-section { margin-bottom: 3mm; }
+    .essay-section-title { font-size: 11px; margin-bottom: 1mm; padding-bottom: 0.5mm; }
+    .essay-section-sub { font-size: 10px; margin: 2mm 0 1mm; }
+    .essay-body { font-size: 8.5px; line-height: 1.7; }
+    .essay-schema { font-size: 11px; margin: 1.5mm 0 1.5mm 4mm; padding: 1mm 3mm; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <button class="print-btn" onclick="window.print()">印刷 / A4 で保存</button>
+
+  <div class="piece-title">Zefiro torna</div>
+  <div class="piece-subtitle">フランチェスコ・ペトラルカ『カンツォニエーレ』第310番 · イタリア語ソネット（14世紀）</div>
+
+  <main id="content"></main>
+
+  <div class="essay">
+    <div class="essay-header">詩の解説</div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">作品概要</div>
+      <p class="essay-body">この詩は、フランチェスコ・ペトラルカ（Francesco Petrarca, 1304–1374）の『カンツォニエーレ（Canzoniere）』、正式には『俗語断片詩集（Rerum vulgarium fragmenta）』第310番のソネットです。愛人ラウラの死（1348年）以後の詩群「イン・モルテ・ディ・マドンナ・ラウラ（in morte di Madonna Laura）」に収められ、その中でも最も広く暗誦・引用されてきた一篇です。表向きは春の到来を歌う伝統的な叙景詩でありながら、最後の三行で全篇の意味を反転させる劇的な構成が、この詩を特別なものにしています。なお本資料の本文は、貼付されたテキストで9〜11行目が改行の都合で結合されていたため、標準的な校訂本（例：Contini版）に基づき14行の型に復元しています。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">ソネットの型：交叉韻</div>
+      <p class="essay-body">形式は11音節詩行（endecasillabo）14行から成るソネットですが、脚韻の型はデッラ・カーサの「O sonno」などに見られる抱擁韻（ABBA）ではなく、交叉韻（rima alternata）を取っています。</p>
+      <span class="essay-schema">quartina I &nbsp; A B A B<br>quartina II&nbsp; A B A B<br>terzina I&nbsp;&nbsp; C D C<br>terzina II&nbsp; D C D</span>
+      <p class="essay-body">rimena／rasserena、famiglia／figlia／riconsiglia、Filomena／piena、vermiglia というように、同じ脚韻音が二つの四行連を通して反復されます。前半8行が同一の韻の枠組みの中で滑らかに連続することで、季節の循環そのもののような音の反復感が生まれ、それが後半での破調をいっそう際立たせます。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">前半八行：万物の再生（ロークス・アモエヌス）</div>
+      <p class="essay-body">前半の二つの四行連は、西風ゼフィロが帰り、花・草・鳥・空・大地のすべてが愛によって満たされていくという、古典修辞学でいう「悦ばしき場所（locus amoenus）」の伝統的な型を踏んでいます。ここには話者の感情は一切現れず、視点は徹底して外界・自然界に置かれています。</p>
+      <div class="essay-section-sub">プロクネーとフィロメーラ：さえずりに潜む神話</div>
+      <p class="essay-body">第3行の「ツバメ（Progne）はさえずり、ナイチンゲール（Philomena）は泣く」は、オウィディウス『変身物語』に伝わる悲劇――姉妹プロクネーとフィロメーラが、夫テレウスの暴行と裏切りへの復讐の果てにそれぞれツバメとナイチンゲールに変えられた神話――を踏まえています。一見のどかな春の鳥の声に、すでに暴力と悲嘆の物語が刻み込まれているのです。この一行は、表向きは喜ばしい自然描写でありながら、来るべき第9行以降の悲嘆への転換を静かに予告しています。</p>
+      <div class="essay-section-sub">「純白と紅（candida et vermiglia）」</div>
+      <p class="essay-body">第4行で春そのものが「純白と紅」の色彩で形容されるのは、ペトラルカが『カンツォニエーレ』全体を通してラウラの美貌（白い肌と赤い頬）を描くのに用いる常套の色彩象徴と同じです。春の擬人化された美しさは、実はラウラの美の反映として描かれており、この重なりが最終行での喪失の痛みを、より深いものにしています。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">転換：「Ma per me, lasso」</div>
+      <p class="essay-body">第9行の "Ma per me, lasso"（だが哀れなこの私には）が、詩全体の劇的な転回点（ヴォルタ）です。ここから視点は外界から話者自身の内面へと急激に移ります。</p>
+      <span class="essay-schema">tornano i più gravi / sospiri, che del cor profondo tragge / quella ch'al ciel se ne portò le chiavi</span>
+      <p class="essay-body">この三行は統辞的に極めて技巧的です。主語である「溜め息（sospiri）」は第9行末に置かれるまで示されず、さらにその溜め息を引き出す主体「あの人（quella）」は第11行になってようやく現れます。文の要素が行をまたいで宙吊りにされるこの構文自体が、言いよどみながら漏れる溜め息の呼吸を模倣しているとも読めます。また「quella ch'al ciel se ne portò le chiavi」（天へとその鍵を持ち去った人）は、ラウラの名を一度も出さぬまま、彼女の死と、天国に迎え入れられたことを暗示する婉曲表現です。</p>
+    </div>
+
+    <div class="essay-section">
+      <div class="essay-section-title">結び：喜びの目録が荒野に変わるとき</div>
+      <p class="essay-body">最終の三行は、前半八行で描かれた春の喜びのモチーフ――鳥の歌、花咲く岸辺、優しい振る舞い――を意図的に反復します。</p>
+      <span class="essay-schema">et cantar augelletti, et fiorir piagge, / e 'n belle donne honeste atti soavi / sono un deserto, e fere aspre e selvagge.</span>
+      <p class="essay-body">前半で読者が見た「歌う小鳥」「花咲く岸辺」「美しい女性たちの優しい振る舞い」という三つの喜ばしいイメージが、ここでは主語として並べ立てられながら、最後の最後、行末においてただ一言 "sono"（〜である）によって「荒野、そして荒々しく野性の獣たち」という正反対のものへとまとめて置き換えられます。外の世界は何一つ変わっていないのに、それを受け取る心が喪失によって作り変えられてしまった結果、同じ春の情景が地獄的な風景として体験される――この極端な反転こそが、この詩がペトラルカの中でも屈指の名篇とされる所以です。</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { stanza: "第一四行連 · Quartina I" },
+  {
+    words: [
+      ["Zefiro", "西風は", "/ˈdzɛːfiro/"],
+      ["torna,", "帰り来る", "/ˈtorna/"],
+      ["e", "そして", "/e/"],
+      ["'l", "その", "/il/"],
+      ["bel", "麗しい", "/bɛl/"],
+      ["tempo", "季節を", "/ˈtɛmpo/"],
+      ["rimena,", "連れ戻す", "/riˈmeːna/"]
+    ],
+    jp: "西風は帰り来て、麗しい季節を連れ戻す"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["i", "その", "/i/"],
+      ["fiori", "花々", "/ˈfjoːri/"],
+      ["et", "と", "/et/"],
+      ["l'erbe,", "草を", "/ˈlɛrbe/"],
+      ["sua", "彼の", "/ˈsua/"],
+      ["dolce", "甘やかな", "/ˈdoltʃe/"],
+      ["famiglia,", "眷属を", "/faˈmiʎːa/"]
+    ],
+    jp: "花々と草――西風の甘やかな眷属たちを"
+  },
+  {
+    words: [
+      ["et", "そして", "/et/"],
+      ["garrir", "さえずること", "/ɡarˈrir/"],
+      ["Progne", "プロクネー", "/ˈprɔɲɲe/"],
+      ["et", "と", "/et/"],
+      ["pianger", "泣くこと", "/pjanˈdʒer/"],
+      ["Philomena,", "フィロメーラ", "/filoˈmɛːna/"]
+    ],
+    jp: "ツバメはさえずり、ナイチンゲールは泣く"
+  },
+  {
+    words: [
+      ["et", "そして", "/et/"],
+      ["primavera", "春は", "/primaˈveːra/"],
+      ["candida", "純白な", "/ˈkandida/"],
+      ["et", "と", "/et/"],
+      ["vermiglia.", "紅の", "/verˈmiʎːa/"]
+    ],
+    jp: "そして春は、純白と紅に彩られる"
+  },
+  { stanza: "第二四行連 · Quartina II" },
+  {
+    words: [
+      ["Ridono", "笑いさざめく", "/ˈriːdono/"],
+      ["i", "その", "/i/"],
+      ["prati,", "野は", "/ˈpraːti/"],
+      ["e", "そして", "/e/"],
+      ["'l", "その", "/il/"],
+      ["ciel", "空は", "/tʃɛl/"],
+      ["si rasserena;", "晴れわたる", "/si rasseˈreːna/"]
+    ],
+    jp: "野は笑いさざめき、空は晴れわたる"
+  },
+  {
+    words: [
+      ["Giove", "ユピテルは", "/ˈdʒɔːve/"],
+      ["s'allegra", "喜ぶ", "/salˈleːɡra/"],
+      ["di mirar", "眺めることを", "/di miˈrar/"],
+      ["sua", "おのが", "/ˈsua/"],
+      ["figlia;", "娘を", "/ˈfiʎːa/"]
+    ],
+    jp: "ユピテルは、おのが娘を眺めて喜ぶ"
+  },
+  {
+    words: [
+      ["l'aria", "大気は", "/ˈlaːrja/"],
+      ["et", "と", "/et/"],
+      ["l'acqua", "水は", "/ˈlakkwa/"],
+      ["et", "と", "/et/"],
+      ["la terra", "大地は", "/la ˈtɛrra/"],
+      ["è", "〜である", "/ɛ/"],
+      ["d'amor", "愛に", "/daˈmor/"],
+      ["piena;", "満ちて", "/ˈpjɛːna/"]
+    ],
+    jp: "大気も水も大地も、愛に満ちている"
+  },
+  {
+    words: [
+      ["ogni", "あらゆる", "/ˈoɲɲi/"],
+      ["animal", "生き物は", "/animˈal/"],
+      ["d'amar", "愛することを", "/daˈmar/"],
+      ["si riconsiglia.", "再び思い立つ", "/si rikonˈsiʎːa/"]
+    ],
+    jp: "あらゆる生き物が、再び愛することを思い立つ"
+  },
+  { stanza: "第一三行連 · Terzina I" },
+  {
+    words: [
+      ["Ma", "しかし", "/ma/"],
+      ["per me,", "私にとっては", "/per me/"],
+      ["lasso,", "ああ哀れな私は", "/ˈlasso/"],
+      ["tornano", "戻ってくる", "/ˈtornano/"],
+      ["i più", "最も", "/i pju/"],
+      ["gravi", "重い", "/ˈɡraːvi/"]
+    ],
+    jp: "だが哀れなこの私には、いっそう重い"
+  },
+  {
+    words: [
+      ["sospiri,", "溜め息が", "/sosˈpiːri/"],
+      ["che", "それは", "/ke/"],
+      ["del cor", "心の", "/del kor/"],
+      ["profondo", "奥深くから", "/proˈfondo/"],
+      ["tragge", "引き出す", "/ˈtraddʒe/"]
+    ],
+    jp: "溜め息ばかりが、心の奥底から"
+  },
+  {
+    words: [
+      ["quella", "あの人", "/ˈkwɛlla/"],
+      ["ch'al ciel", "天へと", "/kal tʃɛl/"],
+      ["se ne portò", "持ち去った", "/se ne porˈtɔ/"],
+      ["le chiavi;", "その鍵を", "/le ˈkjaːvi/"]
+    ],
+    jp: "あの人――天へとその鍵を持ち去った人が、引き出すのだ"
+  },
+  { stanza: "第二三行連 · Terzina II" },
+  {
+    words: [
+      ["et", "そして", "/et/"],
+      ["cantar", "歌うこと", "/kanˈtar/"],
+      ["augelletti,", "小鳥たちが", "/audʒelˈletti/"],
+      ["et", "そして", "/et/"],
+      ["fiorir", "花咲くこと", "/fjoˈrir/"],
+      ["piagge,", "岸辺が", "/ˈpjaddʒe/"]
+    ],
+    jp: "小鳥たちが歌い、岸辺に花咲き"
+  },
+  {
+    words: [
+      ["e", "そして", "/e/"],
+      ["'n", "〜における", "/in/"],
+      ["belle donne", "美しい女性たちの", "/ˈbɛlle ˈdɔnne/"],
+      ["honeste", "貞淑な", "/oˈnɛste/"],
+      ["atti", "振る舞いが", "/ˈatti/"],
+      ["soavi", "優しい", "/soˈaːvi/"]
+    ],
+    jp: "美しい女性たちの貞淑でやさしい振る舞いも"
+  },
+  {
+    words: [
+      ["sono", "〜である", "/ˈsoːno/"],
+      ["un deserto,", "ひとつの荒野に", "/un deˈzɛrto/"],
+      ["e", "そして", "/e/"],
+      ["fere", "獣たちに", "/ˈfɛːre/"],
+      ["aspre", "荒々しい", "/ˈaspre/"],
+      ["e", "〜な", "/e/"],
+      ["selvagge.", "野性の", "/selˈvaddʒe/"]
+    ],
+    jp: "私には荒野であり、荒々しく野性の獣たちに過ぎない"
+  }
+];
+
+const content = document.getElementById('content');
+let stanzaEl = null;
+let stanzaIndex = 0;
+
+data.forEach(item => {
+  if (item.stanza) {
+    stanzaIndex++;
+    stanzaEl = document.createElement('div');
+    stanzaEl.className = 'stanza';
+    stanzaEl.style.animationDelay = (stanzaIndex * 0.15) + 's';
+    const hdr = document.createElement('div');
+    hdr.className = 'stanza-header';
+    hdr.innerHTML = `<span class="stanza-num">${item.stanza}</span><div class="stanza-rule"></div>`;
+    stanzaEl.appendChild(hdr);
+    content.appendChild(stanzaEl);
+    return;
+  }
+
+  const block = document.createElement('div');
+  block.className = 'line-block';
+  const lineRow = document.createElement('div');
+  lineRow.className = 'line-row';
+  const wordRow = document.createElement('div');
+  wordRow.className = 'word-row';
+
+  item.words.forEach(([orig, mean, ipa]) => {
+    const unit = document.createElement('div');
+    unit.className = 'word-unit';
+    unit.innerHTML =
+      `<span class="w-orig">${orig}</span>` +
+      `<span class="w-mean">${mean}</span>` +
+      `<span class="w-ipa">${ipa}</span>`;
+    wordRow.appendChild(unit);
+  });
+
+  const trans = document.createElement('span');
+  trans.className = 'trans-text';
+  trans.textContent = item.jp;
+
+  lineRow.appendChild(wordRow);
+  lineRow.appendChild(trans);
+  block.appendChild(lineRow);
+  stanzaEl.appendChild(block);
+});
+</script>
+</body>
+</html>
